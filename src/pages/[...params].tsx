@@ -10,6 +10,7 @@ import {
   ForecastTemperature,
   ForecastTemperatureToday,
   Main,
+  MainContainerToday,
   NoResults,
 } from "src/styled-components/WeatherPage";
 import { IForecast } from "src/types/IForecast";
@@ -19,7 +20,7 @@ import { fetchFromOpenWatherMap } from "src/services/openWeatherMap";
 import Image from "next/image";
 import { getImageBasedOnCondition } from "src/util";
 import { ToastContainer } from "react-toastify";
-
+import { format, fromUnixTime } from "date-fns";
 interface IProps {
   forecastPageData?: IForecast;
 }
@@ -35,7 +36,7 @@ export default function Home({ forecastPageData }: IProps) {
     <Container>
       <Tabs currentCity={forecastPageData?.city} />
 
-      <Main>
+      <MainContainerToday>
         {todayInfo && (
           <ForecastContainer>
             <Image
@@ -43,17 +44,21 @@ export default function Home({ forecastPageData }: IProps) {
               width={todayInfoImage.width}
               height={todayInfoImage.height}
             />
+
             <ForecastTemperatureToday>
               {Math.round(todayInfo.main.temp)} <sup>c</sup>
             </ForecastTemperatureToday>
-            <ForecastDayToday>Today</ForecastDayToday>
 
+            <ForecastDayToday>Today</ForecastDayToday>
             <ForecastMinMax>
-              Max: 19 <sup>c</sup> Min: 19 <sup>c</sup>
+              {`Max: ${Math.round(todayInfo.main.temp_max)} `}
+              <sup>c</sup>
+              {` Min: ${Math.round(todayInfo.main.temp_min)} `}
+              <sup>c</sup>
             </ForecastMinMax>
           </ForecastContainer>
         )}
-      </Main>
+      </MainContainerToday>
 
       <Main>
         {!forecastPageData && (
@@ -75,23 +80,17 @@ export default function Home({ forecastPageData }: IProps) {
               <ForecastImageContainer>
                 <Image src={path} width={width} height={height} />
               </ForecastImageContainer>
-              <ForecastDay
-                style={{
-                  fontSize: "1.3rem",
-                  paddingTop: 10,
-                  textTransform: "uppercase",
-                }}
-              >
-                Sábado
-              </ForecastDay>
+              <ForecastDay>{format(fromUnixTime(info.dt), "EEEE")}</ForecastDay>
               <ForecastTemperature>
                 {Math.round(info.main.temp)} <sup>c</sup>
               </ForecastTemperature>
               <ForecastMinMax>
-                Max: 19 <sup>c</sup>
+                {`Max: ${Math.round(info.main.temp_max)} `}
+                <sup>c</sup>
               </ForecastMinMax>
               <ForecastMinMax>
-                Min: 19 <sup>c</sup>
+                {` Min: ${Math.round(info.main.temp_min)} `}
+                <sup>c</sup>
               </ForecastMinMax>
             </ForecastContainer>
           );

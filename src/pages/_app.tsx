@@ -27,7 +27,7 @@ function MyApp({ Component, pageProps }: AppProps) {
   return (
     <>
       <Head>
-        <title>Weather Forecast - Updated!</title>
+        <title>Weather Forecast - JVBP</title>
       </Head>
       <StyleReset />
       <ThemeProvider theme={theme}>

@@ -10,12 +10,22 @@ export const NoResults = styled.h1`
   text-align: center;
 `;
 
-export const Main = styled.div`
+export const MainContainerToday = styled.div`
   display: flex;
   flex-wrap: wrap;
   justify-content: space-around;
   align-items: center;
   height: 40vh;
+`;
+
+export const Main = styled.div`
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+
+  @media (max-width: 500px) {
+    flex-direction: column;
+  }
 `;
 
 export const ForecastContainer = styled.div`
@@ -27,6 +37,11 @@ export const ForecastContainer = styled.div`
 
   :hover {
     background-color: #ffffff20;
+    border-radius: 40px;
+  }
+
+  @media (max-width: 500px) {
+    padding: 20px;
   }
 `;
 
@@ -42,13 +57,15 @@ export const ForecastImageContainer = styled.div`
 `;
 
 export const ForecastDay = styled.label`
-  font-size: 1rem;
+  font-size: 1.3rem;
+  padding-top: 10px;
+  text-transform: uppercase;
 `;
+
 export const ForecastMinMax = styled.label`
   font-size: 1rem;
 `;
 
-// today
 export const ForecastTemperatureToday = styled.label`
   font-size: 4rem;
   width: 100%;

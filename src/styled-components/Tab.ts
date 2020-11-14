@@ -9,7 +9,6 @@ export const Container = styled.div`
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-
   width: 100%;
   background-color: ${({ theme }: ITheme) => theme.colors.primary};
   padding: 20px 0 20px 0;
