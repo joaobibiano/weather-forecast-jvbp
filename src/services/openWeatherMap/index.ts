@@ -10,18 +10,23 @@ function transformResponse(data: IForecast) {
     info.dt_txt?.includes(MID_DAY)
   );
 
-  return { ...data, list: allMidDaysTemperatures };
+  // put [today], as first on the list
+  return { ...data, list: [data.list[0], ...allMidDaysTemperatures] };
 }
 
 export async function fetchFromOpenWatherMap(
   localeName?: string,
-  cityId?: string
+  cityId?: string,
+  lat?: string,
+  lon?: string
 ) {
   const params = {
     q: localeName,
     id: cityId,
     units: "metric",
     appid: process.env.OPEN_WEATHER_KEY,
+    lat: lat,
+    lon: lon,
   };
 
   if (Number(cityId)) {
@@ -29,6 +34,11 @@ export async function fetchFromOpenWatherMap(
   }
 
   if (localeName) {
+    delete params.id;
+  }
+
+  if (lat) {
+    delete params.q;
     delete params.id;
   }
 

@@ -7,6 +7,10 @@ export const Container = styled.div`
   height: 100vh;
 `;
 
+export const NoResults = styled.h1`
+  text-align: center;
+`;
+
 export const Main = styled.div`
   background-color: ${({ theme }: ITheme) => theme.colors.secondary};
   display: flex;
@@ -14,8 +18,6 @@ export const Main = styled.div`
   flex: 1;
   justify-content: space-around;
   align-items: center;
-  color: ${({ theme }: ITheme) => theme.colors.white};
-  font-family: "Roboto", sans-serif;
 `;
 
 export const ForecastContainer = styled.div`

@@ -1,16 +1,7 @@
 import { AppProps } from "next/app";
 import { createGlobalStyle, ThemeProvider } from "styled-components";
 import Head from "next/head";
-
-const StyleReset = createGlobalStyle`
-  body {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Roboto', sans-serif;
-    font-size: 14px;
-  }
-`;
+import "react-toastify/dist/ReactToastify.css";
 
 const theme = {
   colors: {
@@ -19,6 +10,17 @@ const theme = {
     white: "#ffffff",
   },
 };
+
+const StyleReset = createGlobalStyle`
+  body {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Roboto', sans-serif;
+    font-size: 14px;
+    color: ${theme.colors.white};
+  }
+`;
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
