@@ -9,11 +9,29 @@ export const Container = styled.div`
 
 export const Main = styled.div`
   background-color: ${({ theme }: ITheme) => theme.colors.secondary};
-  height: 90vh;
   display: flex;
-  flex-direction: column;
-  justify-content: center;
+  flex-wrap: wrap;
+  flex: 1;
+  justify-content: space-around;
   align-items: center;
   color: ${({ theme }: ITheme) => theme.colors.white};
   font-family: "Roboto", sans-serif;
+`;
+
+export const ForecastContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
+export const ForecastTemperature = styled.label`
+  font-size: 7rem;
+
+  sup {
+    font-size: 5rem;
+  }
+`;
+
+export const ForecastDay = styled.label`
+  font-size: 1.2rem;
 `;

@@ -7,68 +7,61 @@ import {
   ContainerAddImage,
 } from "src/styled-components/Tab";
 import Image from "next/image";
+import { IForecast } from "src/types/IForecast";
+import { clientApi } from "src/services/api";
 
-const mockTabs = [
-  {
-    key: "1",
-    location: "Lisboa",
-    data: {},
-  },
-  {
-    key: "2",
-    location: "Berlin",
-    data: {},
-  },
-  {
-    key: "3",
-    location: "Moskow",
-    data: {},
-    isSelected: true,
-  },
-  {
-    key: "4",
-    location: "Paris",
-    data: {},
-  },
-  {
-    key: "5",
-    location: "Sao Paulo",
-    data: {},
-  },
-];
-export default function Tabs() {
-  const [tabs, setTabs] = useState(mockTabs);
+interface IProps {
+  tabs: IForecast[];
+  setTabs: React.Dispatch<React.SetStateAction<IForecast[]>>;
+}
+
+export default function Tabs({ setTabs, tabs = [] }: IProps) {
   const [inputText, setInputText] = useState("");
 
-  const onClickTab = useCallback((id: string) => {
-    setTabs((prev) =>
-      prev.map((t) => ({
-        ...t,
-        isSelected: t.key === id,
-      }))
-    );
+  const searchForecast = useCallback(async (term: string) => {
+    const request = await clientApi.get<IForecast>(`weather?city=${term}`);
+
+    return request.data;
   }, []);
 
-  const handleKeyDown = (event) => {
+  const onClickTab = useCallback(
+    (id: number) => {
+      setTabs((prev) =>
+        prev.map((t) => ({
+          ...t,
+          isSelected: t.city.id === id,
+        }))
+      );
+    },
+    [setTabs]
+  );
+
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === "Enter") addItemToTab();
   };
 
-  const addItemToTab = useCallback(() => {
-    setTabs((prev) => [
-      ...prev,
-      { key: "6", location: inputText, data: {}, isSelected: false },
-    ]);
-  }, [inputText]);
+  const addItemToTab = useCallback(async () => {
+    const data = await searchForecast(inputText);
+
+    if (data) {
+      setTabs((prev) => [
+        ...prev.map((i) => ({ ...i, isSelected: false })),
+        { ...data, isSelected: true },
+      ]);
+    }
+
+    setInputText("");
+  }, [inputText, setTabs]);
 
   return (
     <Container>
       {tabs.map((tab) => (
         <TabItem
-          key={tab.key}
+          key={tab.city.id}
           isSelected={tab.isSelected}
-          onClick={() => onClickTab(tab.key)}
+          onClick={() => onClickTab(tab.city.id)}
         >
-          {tab.location}
+          {tab.city.name} <sup>{tab.city.country}</sup>
         </TabItem>
       ))}
 

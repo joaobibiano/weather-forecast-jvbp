@@ -4,6 +4,7 @@ export interface IForecast {
   cnt: number;
   list: List[];
   city: City;
+  isSelected: boolean;
 }
 
 export interface City {
@@ -31,7 +32,7 @@ export interface List {
   visibility: number;
   pop: number;
   sys: Sys;
-  dt_txt: Date;
+  dt_txt: string;
   rain?: Rain;
 }
 

@@ -1,18 +1,24 @@
-import React, { useEffect } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import Tabs from "src/components/Tab";
 import { Container, Main } from "src/styled-components/WeatherPage";
+import { clientApi } from "src/services/api";
+import { IForecast } from "src/types/IForecast";
+import ForecastDayComponent from "src/components/ForecastDay";
+import { useLocalStorage } from "src/hooks/useLocalStorage";
 
 export default function Home() {
-  useEffect(() => {
-    // clientApi("weather?city=Lisbon").then((r) => console.log(r));
-    // getWeatherFromApi().then((r) => console.log(r));
-  }, []);
+  const [tabs, setTabs] = useLocalStorage("tabs", []);
+  const selectedTab = tabs.find((i: IForecast) => i.isSelected);
 
   return (
     <Container>
-      <Tabs />
+      <Tabs setTabs={setTabs} tabs={tabs} />
 
-      <Main>aasdas</Main>
+      <Main>
+        {selectedTab?.list.map((info) => (
+          <ForecastDayComponent info={info} />
+        ))}
+      </Main>
     </Container>
   );
 }
