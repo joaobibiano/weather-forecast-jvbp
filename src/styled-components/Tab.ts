@@ -12,7 +12,8 @@ export const Container = styled.div`
 
   width: 100%;
   background-color: ${({ theme }: ITheme) => theme.colors.primary};
-  padding: 20px 0;
+  padding: 20px 0 20px 0;
+  margin-bottom: 30px;
 
   @media (max-width: 1200px) {
     justify-content: center;

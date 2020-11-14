@@ -19,6 +19,7 @@ const StyleReset = createGlobalStyle`
     font-family: 'Roboto', sans-serif;
     font-size: 14px;
     color: ${theme.colors.white};
+    background-color: ${theme.colors.secondary};
   }
 `;
 

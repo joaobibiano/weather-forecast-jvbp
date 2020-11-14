@@ -4,7 +4,11 @@ import {
   Container,
   ForecastContainer,
   ForecastDay,
+  ForecastDayToday,
+  ForecastImageContainer,
+  ForecastMinMax,
   ForecastTemperature,
+  ForecastTemperatureToday,
   Main,
   NoResults,
 } from "src/styled-components/WeatherPage";
@@ -22,7 +26,10 @@ interface IProps {
 
 export default function Home({ forecastPageData }: IProps) {
   const todayInfo = forecastPageData?.list?.[0];
-  const todayInfoImage = getImageBasedOnCondition(todayInfo?.weather[0]?.main);
+  const todayInfoImage = getImageBasedOnCondition(
+    todayInfo?.weather[0]?.main,
+    true
+  );
 
   return (
     <Container>
@@ -36,10 +43,14 @@ export default function Home({ forecastPageData }: IProps) {
               width={todayInfoImage.width}
               height={todayInfoImage.height}
             />
-            <ForecastTemperature>
+            <ForecastTemperatureToday>
               {Math.round(todayInfo.main.temp)} <sup>c</sup>
-            </ForecastTemperature>
-            <ForecastDay>Today</ForecastDay>
+            </ForecastTemperatureToday>
+            <ForecastDayToday>Today</ForecastDayToday>
+
+            <ForecastMinMax>
+              Max: 19 <sup>c</sup> Min: 19 <sup>c</sup>
+            </ForecastMinMax>
           </ForecastContainer>
         )}
       </Main>
@@ -61,11 +72,27 @@ export default function Home({ forecastPageData }: IProps) {
             <ForecastContainer
               key={`${info.dt_txt}|${forecastPageData.city.id}`}
             >
-              <Image src={path} width={width} height={height} />
+              <ForecastImageContainer>
+                <Image src={path} width={width} height={height} />
+              </ForecastImageContainer>
+              <ForecastDay
+                style={{
+                  fontSize: "1.3rem",
+                  paddingTop: 10,
+                  textTransform: "uppercase",
+                }}
+              >
+                Sábado
+              </ForecastDay>
               <ForecastTemperature>
                 {Math.round(info.main.temp)} <sup>c</sup>
               </ForecastTemperature>
-              <ForecastDay>{new Date(info.dt_txt).toDateString()}</ForecastDay>
+              <ForecastMinMax>
+                Max: 19 <sup>c</sup>
+              </ForecastMinMax>
+              <ForecastMinMax>
+                Min: 19 <sup>c</sup>
+              </ForecastMinMax>
             </ForecastContainer>
           );
         })}

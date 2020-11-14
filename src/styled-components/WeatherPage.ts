@@ -1,4 +1,3 @@
-import { ITheme } from "src/types/ITheme";
 import styled from "styled-components";
 
 export const Container = styled.div`
@@ -12,12 +11,11 @@ export const NoResults = styled.h1`
 `;
 
 export const Main = styled.div`
-  background-color: ${({ theme }: ITheme) => theme.colors.secondary};
   display: flex;
   flex-wrap: wrap;
-  flex: 1;
   justify-content: space-around;
   align-items: center;
+  height: 40vh;
 `;
 
 export const ForecastContainer = styled.div`
@@ -26,16 +24,40 @@ export const ForecastContainer = styled.div`
   align-items: center;
   min-width: 20%;
   text-align: center;
-`;
 
-export const ForecastTemperature = styled.label`
-  font-size: 7rem;
-  width: 100%;
-  sup {
-    font-size: 5rem;
+  :hover {
+    background-color: #ffffff20;
   }
 `;
 
+export const ForecastTemperature = styled.label`
+  font-size: 3rem;
+  width: 100%;
+  sup {
+    font-size: 1.5rem;
+  }
+`;
+export const ForecastImageContainer = styled.div`
+  min-height: 100px;
+`;
+
 export const ForecastDay = styled.label`
-  font-size: 1.2rem;
+  font-size: 1rem;
+`;
+export const ForecastMinMax = styled.label`
+  font-size: 1rem;
+`;
+
+// today
+export const ForecastTemperatureToday = styled.label`
+  font-size: 4rem;
+  width: 100%;
+  sup {
+    font-size: 1.5rem;
+  }
+`;
+
+export const ForecastDayToday = styled.label`
+  font-size: 1.6rem;
+  text-transform: uppercase;
 `;
