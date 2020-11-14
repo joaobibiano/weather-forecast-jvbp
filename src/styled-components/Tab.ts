@@ -13,7 +13,7 @@ export const Container = styled.div`
   background-color: ${({ theme }: ITheme) => theme.colors.primary};
 `;
 
-export const TabItem = styled.a<ITabItem>`
+export const TabItem = styled.div<ITabItem>`
   transition: border 0.2s ease-in;
   min-width: 150px;
   text-align: center;

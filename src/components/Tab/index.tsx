@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import {
   TabItem,
   Container,
@@ -8,60 +8,45 @@ import {
 } from "src/styled-components/Tab";
 import Image from "next/image";
 import { IForecast } from "src/types/IForecast";
-import { clientApi } from "src/services/api";
+import { useRouter } from "next/router";
+import { useLocalStorage } from "src/hooks/useLocalStorage";
 
 interface IProps {
-  tabs: IForecast[];
-  setTabs: React.Dispatch<React.SetStateAction<IForecast[]>>;
+  currentCity?: IForecast["city"];
 }
-
-export default function Tabs({ setTabs, tabs = [] }: IProps) {
+export default function Tabs({ currentCity }: IProps) {
+  const [cities, setCities] = useLocalStorage("cities", []);
   const [inputText, setInputText] = useState("");
+  const router = useRouter();
 
-  const searchForecast = useCallback(async (term: string) => {
-    const request = await clientApi.get<IForecast>(`weather?city=${term}`);
+  useEffect(() => {
+    const exists = cities.some((c) => c.id === currentCity?.id);
+    if (!exists && currentCity) {
+      setCities((prev) => [...prev, currentCity]);
+    }
+  }, [cities, setCities]);
 
-    return request.data;
+  const onClickTab = useCallback((id: number) => {
+    router.push(`/${id}`);
   }, []);
 
-  const onClickTab = useCallback(
-    (id: number) => {
-      setTabs((prev) =>
-        prev.map((t) => ({
-          ...t,
-          isSelected: t.city.id === id,
-        }))
-      );
-    },
-    [setTabs]
-  );
-
-  const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
-    if (event.key === "Enter") addItemToTab();
-  };
-
   const addItemToTab = useCallback(async () => {
-    const data = await searchForecast(inputText);
-
-    if (data) {
-      setTabs((prev) => [
-        ...prev.map((i) => ({ ...i, isSelected: false })),
-        { ...data, isSelected: true },
-      ]);
-    }
+    router.push(`/0/${inputText}`);
 
     setInputText("");
-  }, [inputText, setTabs]);
+  }, [inputText, router]);
 
   return (
     <Container>
-      {tabs.map((tab) => (
+      {(cities || []).map((city) => (
         <TabItem
-          key={tab.city.id}
-          isSelected={tab.isSelected}
-          onClick={() => onClickTab(tab.city.id)}
+          key={city.id}
+          isSelected={currentCity?.id === city?.id}
+          onClick={() => onClickTab(city.id)}
         >
-          {tab.city.name} <sup>{tab.city.country}</sup>
+          <span>
+            {city.name} <sup>{city.country}</sup>
+          </span>
         </TabItem>
       ))}
 
@@ -70,7 +55,7 @@ export default function Tabs({ setTabs, tabs = [] }: IProps) {
           placeholder="Type here, a new location ..."
           value={inputText}
           onChange={(ev) => setInputText(ev.target.value)}
-          onKeyDown={handleKeyDown}
+          onKeyDown={(ev) => ev.key === "Enter" && addItemToTab()}
         />
         <ContainerAddImage onClick={addItemToTab}>
           {inputText && <Image src="/images/plus.svg" width={25} height={25} />}

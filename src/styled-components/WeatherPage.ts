@@ -22,11 +22,13 @@ export const ForecastContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  min-width: 20%;
+  text-align: center;
 `;
 
 export const ForecastTemperature = styled.label`
   font-size: 7rem;
-
+  width: 100%;
   sup {
     font-size: 5rem;
   }
