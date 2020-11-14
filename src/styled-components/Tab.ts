@@ -59,12 +59,14 @@ export const TabItem = styled.div<ITabItem>`
 export const TabItemLabel = styled.span`
   cursor: pointer;
 `;
+
 export const CitiesContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   justify-content: center;
 `;
+
 export const ContainerAddNew = styled.div`
   position: relative;
   width: 340px;
@@ -99,6 +101,5 @@ export const AddNew = styled.input<ITabItem>`
 
   border-color: transparent;
   border-bottom: 1px solid white;
-
   font-size: 1rem;
 `;

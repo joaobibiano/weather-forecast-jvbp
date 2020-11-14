@@ -66,13 +66,9 @@ export default function Tabs({ currentCity }: IProps) {
         notifyYouCantDelete();
         return;
       }
-
       const nextState = cities.filter((c) => c.id !== id);
-
       router.push(`/${nextState[nextState.length - 1].id}`);
-
       setCities(nextState);
-
       notifyDeleteTab();
     },
     [setCities, cities]
@@ -80,7 +76,6 @@ export default function Tabs({ currentCity }: IProps) {
 
   const addItemToTab = useCallback(async () => {
     router.push(`/0/${inputText}`);
-
     setInputText("");
   }, [inputText, router]);
 
